@@ -1,0 +1,31 @@
+[package]
+name = "cefr"
+version = "0.1.0"
+edition = "2024"
+description = "CEFR word-level lookups: tiny parquet -> client-side sqlite rebuild + analysis"
+
+[dependencies]
+anyhow = "1"
+arrow = "59"
+parquet = { version = "59", default-features = false, features = ["arrow", "zstd"] }
+rusqlite = { version = "0.40", features = ["bundled"] }
+zstd = "0.13"                                  # decode en_tokenizer.bin.zst at startup
+flate2 = "1"                                   # decode the official en_tokenizer.bin.gz
+nlprule = { version = "0.6", optional = true } # only for `analyze`: cargo build --features nlp
+
+# downloads + compiles the model at build time, only with --features embed-model
+[build-dependencies]
+nlprule-build = "0.6"
+
+# dev-only: `cargo run --example make_model` regenerates models/en_tokenizer.bin
+[dev-dependencies]
+nlprule-build = "0.6"
+
+[features]
+nlp = ["dep:nlprule"]                          # analyze, model loaded from a file at runtime
+embed-model = ["nlp"]                          # analyze with the model compiled into the binary
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

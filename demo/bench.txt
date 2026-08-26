@@ -1,0 +1,14 @@
+
+file                            pq MB    read ms   build ms      db MB 1-lookup µs      miss µs batch µs/pair
+----------------------------------------------------------------------------------------------------------------------
+data/cefr.zstd.parquet           2.80       77.3      465.1      12.16       9.41         6.27        4.063
+data/cefr.core.parquet           1.36       22.3      222.9       6.73       8.13         5.70        3.696
+
+data/cefr.zstd.parquet
+  rows  248447 | distinct words  173034 | columns [word,pos_tag,lemma,stem,frequency_count,level,categories]
+  in-memory map: 27.3 ms load, 0.133 µs/lookup (no sqlite at all)
+data/cefr.core.parquet
+  rows  173033 | distinct words  173033 | columns [word,lemma,level]
+  in-memory map: 23.4 ms load, 0.126 µs/lookup (no sqlite at all)
+
+'data/cefr.core.parquet' is 51% smaller to download than 'data/cefr.zstd.parquet' and rebuilds 52% faster.

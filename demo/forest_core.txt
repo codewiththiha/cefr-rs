@@ -1,0 +1,268 @@
+NLP: 337 ms
+CEFR levels: 1 ms
+------------------------------
+Text length: 1356
+Total tokens: 258
+note: db has no pos_tag column -> word-average levels; POS column is the tokenizer's guess
+
+WORD                      	LEMMA                     	POS	LEVEL	CEFR
+-------------------------------------------------------------------------------------
+in                        	in                        	IN	1.50	A2
+the                       	the                       	DT	1.00	A1
+heart                     	heart                     	NN	1.00	A1
+of                        	of                        	IN	1.00	A1
+every                     	every                     	DT	1.00	A1
+forest                    	forest                    	NN	2.00	A2
+a                         	a                         	DT	1.00	A1
+hidden                    	hidden                    	JJ	3.00	B1
+world                     	world                     	NN	1.00	A1
+thrives                   	thrive                    	VBZ	5.86	C2
+among                     	among                     	IN	2.00	A2
+the                       	the                       	DT	1.00	A1
+towering                  	towering                  	JJ	1.00	A1
+trees                     	tree                      	NNS	1.00	A1
+trees                     	tree                      	NNS	1.00	A1
+those                     	those                     	DT	1.00	A1
+silent                    	silent                    	JJ	3.00	B1
+giants                    	giant                     	NNS	3.00	B1
+are                       	be                        	VBP	1.00	A1
+more                      	many                      	JJR	1.67	A2
+than                      	than                      	IN	1.00	A1
+just                      	just                      	JJ	1.00	A1
+passive                   	passive                   	JJ	3.00	B1
+observers                 	observer                  	NNS	4.00	B2
+of                        	of                        	IN	1.00	A1
+nature                    	nature                    	NN	2.00	A2
+s                         	s                         	POS	2.42	A2
+drama                     	drama                     	NN	1.00	A1
+they                      	they                      	PRP	1.00	A1
+are                       	be                        	VBP	1.00	A1
+active                    	active                    	JJ	3.00	B1
+participants              	participant               	NNS	3.00	B1
+in                        	in                        	IN	1.50	A2
+an                        	a                         	DT	1.00	A1
+intricate                 	intricate                 	JJ	2.96	B1
+dance                     	dance                     	NN	1.00	A1
+of                        	of                        	IN	1.00	A1
+life                      	life                      	NN	1.00	A1
+did                       	do                        	VBD	1.00	A1
+you                       	you                       	PRP	1.00	A1
+know                      	know                      	VB	1.00	A1
+that                      	that                      	DT	1.75	A2
+trees                     	tree                      	NNS	1.00	A1
+communicate               	communicate               	VB	2.00	A2
+with                      	with                      	IN	1.00	A1
+each                      	each                      	DT	1.00	A1
+other                     	other                     	NN	1.50	A2
+it                        	it                        	PRP	1.50	A2
+s                         	be                        	VBZ	2.42	A2
+not                       	not                       	RB	1.00	A1
+through                   	through                   	IN	2.00	A2
+words                     	word                      	NNS	1.00	A1
+or                        	or                        	CC	1.00	A1
+gestures                  	gesture                   	NNS	3.00	B1
+like                      	like                      	IN	1.67	A2
+ours                      	ours                      	PRP	1.00	A1
+but                       	but                       	CC	2.00	A2
+rather                    	rather                    	RB	2.00	A2
+through                   	through                   	IN	2.00	A2
+a                         	a                         	DT	1.00	A1
+complex                   	complex                   	JJ	3.00	B1
+network                   	network                   	NN	3.00	B1
+of                        	of                        	IN	1.00	A1
+fungi                     	fungus                    	NNS	5.19	C1
+that                      	that                      	DT	1.75	A2
+connect                   	connect                   	VB	3.00	B1
+their                     	their                     	PRP$	1.00	A1
+roots                     	root                      	NNS	2.00	A2
+underground               	underground               	NN	4.00	B2
+this                      	this                      	DT	1.00	A1
+network                   	network                   	NN	3.00	B1
+often                     	often                     	JJ	1.00	A1
+called                    	called                    	JJ	1.50	A2
+the                       	the                       	DT	1.00	A1
+wood                      	wood                      	JJ	2.00	A2
+wide                      	wide                      	JJ	2.00	A2
+web                       	web                       	NN	2.00	A2
+allows                    	allow                     	VBZ	2.00	A2
+trees                     	tree                      	NNS	1.00	A1
+to                        	to                        	IN	1.00	A1
+share                     	share                     	NN	1.50	A2
+nutrients                 	nutrient                  	NNS	3.00	B1
+water                     	water                     	NN	2.50	B1
+and                       	and                       	CC	1.00	A1
+even                      	even                      	JJ	2.50	B1
+warnings                  	warning                   	NNS	3.00	B1
+about                     	about                     	IN	1.00	A1
+potential                 	potential                 	JJ	3.50	B2
+threats                   	threat                    	NNS	3.00	B1
+but                       	but                       	CC	2.00	A2
+trees                     	tree                      	NNS	1.00	A1
+are                       	be                        	VBP	1.00	A1
+not                       	not                       	RB	1.00	A1
+just                      	just                      	JJ	1.00	A1
+generous                  	generous                  	JJ	3.00	B1
+benefactors               	benefactor                	NNS	6.00	C2
+they                      	they                      	PRP	1.00	A1
+are                       	be                        	VBP	1.00	A1
+also                      	also                      	RB	1.00	A1
+masters                   	master                    	NNS	4.00	B2
+of                        	of                        	IN	1.00	A1
+adaptation                	adaptation                	NN	3.71	B2
+take                      	take                      	NN	2.00	A2
+the                       	the                       	DT	1.00	A1
+mighty                    	mighty                    	JJ	4.00	B2
+sequoias                  	sequoia                   	NNS	6.00	C2
+for                       	for                       	CC	1.50	A2
+example                   	example                   	NN	1.00	A1
+towering                  	towering                  	JJ	1.00	A1
+giants                    	giant                     	NNS	3.00	B1
+that                      	that                      	DT	1.75	A2
+have                      	have                      	VB	1.00	A1
+stood                     	stand                     	VBN	1.50	A2
+the                       	the                       	DT	1.00	A1
+test                      	test                      	NN	2.50	B1
+of                        	of                        	IN	1.00	A1
+time                      	time                      	NN	2.50	B1
+for                       	for                       	CC	1.50	A2
+thousands                 	thousand                  	NNS	2.00	A2
+of                        	of                        	IN	1.00	A1
+years                     	year                      	NNS	1.00	A1
+these                     	these                     	DT	1.00	A1
+giants                    	giant                     	NNS	3.00	B1
+have                      	have                      	VB	1.00	A1
+evolved                   	evolve                    	VBN	4.00	B2
+thick                     	thick                     	JJ	1.00	A1
+fire-resistant            	fire-resistant            	JJ	--	N/A
+bark                      	bark                      	NN	3.50	B2
+to                        	to                        	TO	1.00	A1
+withstand                 	withstand                 	VB	5.12	C1
+the                       	the                       	DT	1.00	A1
+frequent                  	frequent                  	JJ	3.00	B1
+wildfires                 	wildfire                  	NNS	6.00	C2
+of                        	of                        	IN	1.00	A1
+their                     	their                     	PRP$	1.00	A1
+native                    	native                    	JJ	2.00	A2
+california                	california                	NNP	6.00	C2
+and                       	and                       	CC	1.00	A1
+speaking                  	speaking                  	JJ	1.00	A1
+of                        	of                        	IN	1.00	A1
+longevity                 	longevity                 	NN	5.97	C2
+did                       	do                        	VBD	1.00	A1
+you                       	you                       	PRP	1.00	A1
+know                      	know                      	VB	1.00	A1
+that                      	that                      	DT	1.75	A2
+some                      	some                      	DT	1.00	A1
+trees                     	tree                      	NNS	1.00	A1
+have                      	have                      	VB	1.00	A1
+been                      	be                        	VBN	2.00	A2
+around                    	around                    	IN	1.50	A2
+for                       	for                       	CC	1.50	A2
+centuries                 	century                   	NNS	2.00	A2
+witnessing                	witness                   	VBG	3.50	B2
+history                   	history                   	NN	1.00	A1
+unfold                    	unfold                    	VB	3.00	B1
+the                       	the                       	DT	1.00	A1
+ancient                   	ancient                   	JJ	2.00	A2
+bristlecone               	bristlecone               		6.00	C2
+pines                     	pine                      	NNS	4.00	B2
+of                        	of                        	IN	1.00	A1
+the                       	the                       	DT	1.00	A1
+american                  	american                  	JJ	1.24	A1
+west                      	west                      	JJ	2.00	A2
+for                       	for                       	CC	1.50	A2
+instance                  	instance                  	NN	3.00	B1
+can                       	can                       	MD	1.50	A2
+live                      	live                      	JJ	2.00	A2
+for                       	for                       	CC	1.50	A2
+over                      	over                      	IN	1.50	A2
+years                     	year                      	NNS	1.00	A1
+making                    	making                    	NN	2.50	B1
+them                      	they                      	PRP	1.00	A1
+some                      	some                      	DT	1.00	A1
+of                        	of                        	IN	1.00	A1
+the                       	the                       	DT	1.00	A1
+oldest                    	old                       	JJS	1.00	A1
+living                    	living                    	JJ	2.50	B1
+organisms                 	organism                  	NNS	3.00	B1
+on                        	on                        	IN	1.50	A2
+earth                     	earth                     	NNP	2.00	A2
+so                        	so                        	NNP	1.50	A2
+the                       	the                       	DT	1.00	A1
+next                      	next                      	JJ	2.67	B1
+time                      	time                      	JJ	2.50	B1
+you                       	you                       	PRP	1.00	A1
+find                      	find                      	NN	1.00	A1
+yourself                  	yourself                  	PRP	1.00	A1
+wandering                 	wandering                 	JJ	2.00	A2
+through                   	through                   	IN	2.00	A2
+a                         	a                         	DT	1.00	A1
+forest                    	forest                    	NN	2.00	A2
+take                      	take                      	NN	2.00	A2
+a                         	a                         	DT	1.00	A1
+moment                    	moment                    	NN	1.00	A1
+to                        	to                        	TO	1.00	A1
+appreciate                	appreciate                	VB	2.00	A2
+the                       	the                       	DT	1.00	A1
+remarkable                	remarkable                	JJ	3.00	B1
+world                     	world                     	JJ	1.00	A1
+of                        	of                        	IN	1.00	A1
+trees                     	tree                      	NNS	1.00	A1
+they                      	they                      	PRP	1.00	A1
+may                       	may                       	MD	1.00	A1
+seem                      	seem                      	VB	2.00	A2
+like                      	like                      	IN	1.67	A2
+silent                    	silent                    	JJ	3.00	B1
+spectators                	spectator                 	NNS	3.00	B1
+but                       	but                       	CC	2.00	A2
+their                     	their                     	PRP$	1.00	A1
+lives                     	life                      	NNS	1.50	A2
+are                       	be                        	VBP	1.00	A1
+full                      	full                      	JJ	1.00	A1
+of                        	of                        	IN	1.00	A1
+fascinating               	fascinating               	JJ	2.00	A2
+stories                   	story                     	NNS	1.00	A1
+waiting                   	waiting                   	JJ	2.50	B1
+to                        	to                        	IN	1.00	A1
+be                        	be                        	VB	1.00	A1
+discovered                	discover                  	VBN	2.00	A2
+
+CEFR statistic (total words):
+A1: 106
+A2: 59
+B1: 34
+B2: 10
+C1: 2
+C2: 7
+
+CEFR statistic (unique words):
+A1: 51
+A2: 43
+B1: 29
+B2: 10
+C1: 2
+C2: 7
+
+Not found words: 1
+fire-resistant
+
+	Words with level B2 and higher: 19
+bristlecone                       6.00   C2
+mighty                     JJ     4.00   B2
+potential                  JJ     3.50   B2
+adaptation                 NN     3.71   B2
+bark                       NN     3.50   B2
+longevity                  NN     5.97   C2
+underground                NN     4.00   B2
+california                 NNP    6.00   C2
+benefactors                NNS    6.00   C2
+fungi                      NNS    5.19   C1
+masters                    NNS    4.00   B2
+observers                  NNS    4.00   B2
+pines                      NNS    4.00   B2
+sequoias                   NNS    6.00   C2
+wildfires                  NNS    6.00   C2
+withstand                  VB     5.12   C1
+witnessing                 VBG    3.50   B2
+evolved                    VBN    4.00   B2
+thrives                    VBZ    5.86   C2

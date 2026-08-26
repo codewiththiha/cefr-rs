@@ -1,0 +1,102 @@
+NLP: 246 ms
+CEFR levels: 0 ms
+------------------------------
+Text length: 343
+Total tokens: 83
+note: db has no pos_tag column -> word-average levels; POS column is the tokenizer's guess
+
+WORD                      	LEMMA                     	POS	LEVEL	CEFR
+-------------------------------------------------------------------------------------
+hello                     	hello                     	NN	1.00	A1
+my                        	my                        	PRP$	1.00	A1
+name                      	name                      	NN	2.00	A2
+is                        	be                        	VBZ	1.00	A1
+tom                       	tom                       	NNP	2.77	B1
+i                         	i                         	PRP	1.00	A1
+live                      	live                      	JJ	2.00	A2
+in                        	in                        	IN	1.50	A2
+a                         	a                         	DT	1.00	A1
+small                     	small                     	JJ	1.00	A1
+house                     	house                     	NN	1.00	A1
+with                      	with                      	IN	1.00	A1
+my                        	my                        	PRP$	1.00	A1
+family                    	family                    	NN	1.00	A1
+every                     	every                     	DT	1.00	A1
+morning                   	morning                   	JJ	1.00	A1
+i                         	i                         	PRP	1.00	A1
+eat                       	eat                       	VBP	1.00	A1
+bread                     	bread                     	NN	1.00	A1
+and                       	and                       	CC	1.00	A1
+drink                     	drink                     	NN	1.00	A1
+milk                      	milk                      	JJ	1.00	A1
+then                      	then                      	JJ	1.00	A1
+i                         	i                         	PRP	1.00	A1
+go                        	go                        	NN	2.00	A2
+to                        	to                        	IN	1.00	A1
+school                    	school                    	NN	1.00	A1
+by                        	by                        	IN	1.00	A1
+bus                       	bus                       	NN	1.00	A1
+i                         	i                         	PRP	1.00	A1
+like                      	like                      	VBP	1.67	A2
+my                        	my                        	PRP$	1.00	A1
+school                    	school                    	NN	1.00	A1
+very                      	very                      	RB	2.50	B1
+much                      	much                      	DT	1.00	A1
+my                        	my                        	PRP$	1.00	A1
+teacher                   	teacher                   	NN	1.00	A1
+is                        	be                        	VBZ	1.00	A1
+kind                      	kind                      	JJ	1.50	A2
+and                       	and                       	CC	1.00	A1
+my                        	my                        	PRP$	1.00	A1
+friends                   	friend                    	NNS	1.00	A1
+are                       	be                        	VBP	1.00	A1
+funny                     	funny                     	JJ	1.00	A1
+after                     	after                     	CC	2.00	A2
+school                    	school                    	NN	1.00	A1
+we                        	we                        	PRP	1.00	A1
+play                      	play                      	VBP	1.00	A1
+football                  	football                  	NN	1.00	A1
+in                        	in                        	IN	1.50	A2
+the                       	the                       	DT	1.00	A1
+park                      	park                      	NN	1.50	A2
+in                        	in                        	IN	1.50	A2
+the                       	the                       	DT	1.00	A1
+evening                   	evening                   	NN	1.00	A1
+i                         	i                         	PRP	1.00	A1
+read                      	read                      	NN	1.00	A1
+a                         	a                         	DT	1.00	A1
+book                      	book                      	NN	2.00	A2
+and                       	and                       	CC	1.00	A1
+go                        	go                        	NN	2.00	A2
+to                        	to                        	IN	1.00	A1
+bed                       	bed                       	NN	1.00	A1
+early                     	early                     	JJ	1.50	A2
+tomorrow                  	tomorrow                  	RB	1.00	A1
+is                        	be                        	VBZ	1.00	A1
+my                        	my                        	PRP$	1.00	A1
+birthday                  	birthday                  	NN	1.00	A1
+and                       	and                       	CC	1.00	A1
+i                         	i                         	PRP	1.00	A1
+am                        	be                        	VBP	1.00	A1
+very                      	very                      	RB	2.50	B1
+happy                     	happy                     	JJ	1.00	A1
+
+CEFR statistic (total words):
+A1: 57
+A2: 13
+B1: 3
+B2: 0
+C1: 0
+C2: 0
+
+CEFR statistic (unique words):
+A1: 37
+A2: 10
+B1: 2
+B2: 0
+C1: 0
+C2: 0
+
+Not found words: 0
+
+	Words with level B2 and higher: 0
