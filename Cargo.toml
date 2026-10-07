@@ -1,29 +1,39 @@
 [package]
 name = "cefr"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 description = "CEFR word-level lookups: tiny parquet -> client-side sqlite rebuild + analysis"
 
+# The CLI needs both halves of the library; the lib alone builds feature-less.
+[[bin]]
+name = "cefr"
+path = "src/main.rs"
+required-features = ["parquet", "sqlite"]
+
 [dependencies]
 anyhow = "1"
-arrow = "59"
-parquet = { version = "59", default-features = false, features = ["arrow", "zstd"] }
-rusqlite = { version = "0.40", features = ["bundled"] }
+arrow = { version = "59", optional = true }
+parquet = { version = "59", optional = true, default-features = false, features = ["arrow", "zstd"] }
+rusqlite = { version = "0.40", features = ["bundled"], optional = true }
 zstd = "0.13"                                  # decode en_tokenizer.bin.zst at startup
 flate2 = "1"                                   # decode the official en_tokenizer.bin.gz
 nlprule = { version = "0.6", optional = true } # only for `analyze`: cargo build --features nlp
 
 # downloads + compiles the model at build time, only with --features embed-model
+# (optional, so consuming apps never compile it)
 [build-dependencies]
-nlprule-build = "0.6"
+nlprule-build = { version = "0.6", optional = true }
 
 # dev-only: `cargo run --example make_model` regenerates models/en_tokenizer.bin
 [dev-dependencies]
 nlprule-build = "0.6"
 
 [features]
+default = ["parquet", "sqlite"]
+parquet = ["dep:arrow", "dep:parquet"]         # read the dataset parquet (dataset module)
+sqlite = ["dep:rusqlite"]                      # rebuild + query the local db (db module)
 nlp = ["dep:nlprule"]                          # analyze, model loaded from a file at runtime
-embed-model = ["nlp"]                          # analyze with the model compiled into the binary
+embed-model = ["nlp", "dep:nlprule-build"]     # analyze with the model compiled into the binary
 
 [profile.release]
 lto = true

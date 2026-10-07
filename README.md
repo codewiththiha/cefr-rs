@@ -11,7 +11,12 @@ not wanted.
 ## Layout
 
 ```
+src/lib.rs               library root: the reusable half, feature-gated
+src/level.rs             level bands: 1.0-6.0 floats <-> A1-C2 labels
+src/dataset.rs           parquet reader (feature `parquet`)
+src/db.rs                sqlite rebuild + CefrDb lookups (feature `sqlite`)
 src/main.rs              CLI: builddb, lookup, batch, memory, analyze, bench
+src/cli/                 the subcommands that are presentation, not library
 build.rs                 model compilation, active only with --features embed-model
 examples/make_model.rs   dev helper: regenerate the language model (needs network)
 models/                  en_tokenizer.bin.zst — prebuilt runtime language model
@@ -20,6 +25,26 @@ datasets/                source data: csv/*.csv, word_list_cefr.csv, database_mo
 data/                    built parquets + sample texts
 demo/                    captured analyze/bench outputs
 ```
+
+## As a library
+
+Depend on it with the features you need; the CLI consumes the same API.
+
+```toml
+cefr = { git = "https://github.com/codewiththiha/cefr-rs.git" }
+```
+
+| feature | default | pulls in | gives you |
+|---|---|---|---|
+| `parquet` | yes | arrow, parquet | `dataset::{read_parquet, CefrRow, Columns}` |
+| `sqlite` | yes | rusqlite (bundled) | `db::{build_db, CefrDb}` — rebuild + batch lookups |
+| `nlp` | no | nlprule | the `analyze` pipeline (tokenizer model from a file) |
+| `embed-model` | no | nlprule-build | `analyze` with the model compiled into the binary |
+
+`CefrDb::lookup(word, pos)` and `CefrDb::lookup_batch(&[(word, pos)])` follow
+the upstream notebook's semantics: the exact (word, POS) average, falling back
+to the word's other senses — or, without a `pos_tag` column, the word average.
+
 
 ## Parquet files
 
