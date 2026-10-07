@@ -1,0 +1,36 @@
+name: Lockfile
+
+# Not a gate: a dispatch re-resolves the workspace and pushes the lock as
+# one commit. A changed manifest cannot be --locked until some cargo with
+# network has resolved it once; this is that cargo.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lock-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lock:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Resolve the workspace into Cargo.lock
+        # Deliberately NOT --locked: the missing entries are the point.
+        run: cargo metadata --format-version 1 > /dev/null
+      - name: Commit the resolved lockfile
+        run: |
+          git config user.name "kt007441"
+          git config user.email "kt007441@gmail.com"
+          if git diff --quiet -- Cargo.lock; then
+            echo "lock already resolves"
+            exit 0
+          fi
+          git add Cargo.lock
+          git commit -m "chore: resolve the lockfile for the manifest"
+          git push
