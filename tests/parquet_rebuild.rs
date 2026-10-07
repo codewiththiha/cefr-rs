@@ -28,8 +28,8 @@ fn the_core_parquet_rebuilds_and_answers() {
         "the core export carries the whole word list"
     );
     assert!(!cols.pos_tag, "the core export has no pos_tag column");
-    // words and levels only, in the canonical order
-    assert_eq!(cols.names(), vec!["word", "level"]);
+    // word, the merge's lemma, and the level — in the canonical order
+    assert_eq!(cols.names(), vec!["word", "lemma", "level"]);
     // the export is mean-level per word: 1.0..=6.0
     let bad = rows
         .iter()
