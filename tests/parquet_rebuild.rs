@@ -65,7 +65,7 @@ fn the_core_parquet_rebuilds_and_answers() {
         !got.contains_key(&pairs[2]),
         "absent words are absent from the batch map"
     );
-    for (_, level) in &got {
+    for level in got.values() {
         let band = level_band(*level);
         assert!((1..=6).contains(&band));
     }

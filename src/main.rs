@@ -59,10 +59,10 @@ fn main() -> Result<()> {
                 let mut parts: Vec<String> = vec![word.clone()];
                 for (col, v) in shown.iter().zip(&vals) {
                     parts.push(cli::fmt_value(v));
-                    if *col == "level" {
-                        if let Value::Real(l) = v {
-                            parts.push(level_to_cefr(*l).to_string());
-                        }
+                    if *col == "level"
+                        && let Value::Real(l) = v
+                    {
+                        parts.push(level_to_cefr(*l).to_string());
                     }
                 }
                 println!("{}", parts.join("\t"));
