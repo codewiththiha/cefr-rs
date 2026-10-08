@@ -145,6 +145,9 @@ impl Tagger {
             };
             let lemma = tag.lemma().as_str().trim().to_lowercase();
             let pos = normalize_pos(tag.pos().as_str()).to_string();
+            // The surface match answers at once; the three fallbacks keep
+            // the first token that resolved each way, so the later tokens
+            // cannot overwrite an earlier, better answer.
             if surface == target {
                 return Some(ContextPos {
                     pos,
@@ -153,14 +156,14 @@ impl Tagger {
             }
             if by_stem.is_none() && stem == Some(surface.as_str()) {
                 by_stem = Some(ContextPos {
-                    pos,
-                    lemma: Some(lemma),
+                    pos: pos.clone(),
+                    lemma: Some(lemma.clone()),
                 });
             }
             if by_head.is_none() && head == Some(surface.as_str()) {
                 by_head = Some(ContextPos {
-                    pos,
-                    lemma: Some(lemma),
+                    pos: pos.clone(),
+                    lemma: Some(lemma.clone()),
                 });
             }
             if by_lemma.is_none() && lemma == target {
