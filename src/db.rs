@@ -12,7 +12,7 @@ use std::path::Path;
 use std::time::{Duration, Instant};
 
 use anyhow::{Context, Result};
-use rusqlite::{Connection, params, params_from_iter, types::Value};
+use rusqlite::{Connection, OptionalExtension, params, params_from_iter, types::Value};
 
 use crate::dataset::{CefrRow, Columns};
 
@@ -115,6 +115,13 @@ pub fn build_db(parquet_path: &Path, db_path: &Path) -> Result<BuildStats> {
     })
 }
 
+/// One POS sense and its average level.
+#[derive(Debug, Clone)]
+pub struct Sense {
+    pub pos: String,
+    pub level: f64,
+}
+
 /// An open CEFR database: schema-aware lookups with one prepared statement.
 pub struct CefrDb {
     conn: Connection,
@@ -162,6 +169,69 @@ impl CefrDb {
             .conn
             .query_row(sql, params![pos_tag, word], |row| row.get(0))?;
         Ok(level)
+    }
+
+    /// The level of the exact (word, POS) sense, with NO fallback:
+    /// `None` when the db has no POS column or lacks that sense.
+    pub fn exact_level(&self, word: &str, pos_tag: &str) -> Result<Option<f64>> {
+        if !self.has_pos {
+            return Ok(None);
+        }
+        let sql = "SELECT AVG(level) FROM cefr WHERE word = ?1 AND pos_tag = ?2";
+        Ok(self
+            .conn
+            .query_row(sql, params![word, pos_tag], |row| row.get(0))
+            .optional()?
+            .flatten())
+    }
+
+    /// Every POS sense of `word` with its average level, alphabetically.
+    /// Empty when the db has no POS column.
+    pub fn pos_senses(&self, word: &str) -> Result<Vec<(String, f64)>> {
+        if !self.has_pos {
+            return Ok(Vec::new());
+        }
+        let sql = "SELECT pos_tag, AVG(level) FROM cefr \
+                   WHERE word = ?1 AND pos_tag IS NOT NULL \
+                   GROUP BY pos_tag ORDER BY pos_tag";
+        let senses = self
+            .conn
+            .prepare(sql)?
+            .query_map(params![word], |row| {
+                Ok((row.get::<_, String>(0)?, row.get::<_, f64>(1)?))
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+        Ok(senses)
+    }
+
+    /// The level for `word` used as `pos_tag`: the exact sense first,
+    /// then the nearest sense sharing the tag's first letter, then the
+    /// word's first sense. Tag vocabularies drift between taggers; the
+    /// ladder absorbs it. `None` without a POS column or senses.
+    pub fn sense_level(&self, word: &str, pos_tag: &str) -> Result<Option<Sense>> {
+        if !self.has_pos {
+            return Ok(None);
+        }
+        if let Some(level) = self.exact_level(word, pos_tag)? {
+            return Ok(Some(Sense {
+                pos: pos_tag.to_string(),
+                level,
+            }));
+        }
+        let Some(family) = pos_tag.chars().next() else {
+            return Ok(None);
+        };
+        let senses = self.pos_senses(word)?;
+        let mut first = None;
+        for (pos, level) in senses {
+            if pos.starts_with(family) {
+                return Ok(Some(Sense { pos, level }));
+            }
+            if first.is_none() {
+                first = Some((pos, level));
+            }
+        }
+        Ok(first.map(|(pos, level)| Sense { pos, level }))
     }
 
     /// One round trip for many (word, pos) pairs, via a VALUES CTE.

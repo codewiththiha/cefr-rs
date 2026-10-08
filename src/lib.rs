@@ -15,3 +15,5 @@ pub mod level;
 pub mod dataset;
 #[cfg(feature = "sqlite")]
 pub mod db;
+#[cfg(feature = "nlp")]
+pub mod pos;

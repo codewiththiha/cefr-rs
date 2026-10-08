@@ -2,8 +2,7 @@
 //! (replaces spaCy + LemmInflect), then look up every (word, pos) in cefr.db.
 
 use std::collections::HashSet;
-use std::fs::File;
-use std::io::{Cursor, Read};
+use std::io::Cursor;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
@@ -11,47 +10,10 @@ use anyhow::{Context, Result, bail};
 
 use cefr::db::CefrDb;
 use cefr::level::level_to_cefr;
-
-/// Same contraction map as the Python notebook
-const ABBREVIATION_MAPPING: [(&str, &str); 7] = [
-    ("'m", "am"),
-    ("'s", "is"),
-    ("'re", "are"),
-    ("'ve", "have"),
-    ("'d", "had"),
-    ("n't", "not"),
-    ("'ll", "will"),
-];
-
-/// LanguageTool tags are Penn-style but with extra suffixes (`NN:U`, `IN/that`);
-/// strip them so they match this dataset's Penn Treebank tags.
-fn normalize_pos(tag: &str) -> &str {
-    match tag.find(|c| c == ':' || c == '/') {
-        Some(end) => &tag[..end],
-        None => tag,
-    }
-}
+use cefr::pos::{ABBREVIATION_MAPPING, normalize_pos, tokenizer_from_model_path};
 
 fn load_tokenizer(path: &Path) -> Result<nlprule::Tokenizer> {
-    let extension = path.extension().and_then(|e| e.to_str()).unwrap_or("");
-    let bytes = match extension {
-        "zst" => zstd::stream::decode_all(
-            File::open(path).with_context(|| format!("open {}", path.display()))?,
-        )
-        .context("decompress model")?,
-        "gz" => {
-            let mut out = Vec::new();
-            flate2::read::GzDecoder::new(
-                File::open(path).with_context(|| format!("open {}", path.display()))?,
-            )
-            .read_to_end(&mut out)
-            .context("decompress model")?;
-            out
-        }
-        _ => std::fs::read(path).with_context(|| format!("read model {}", path.display()))?,
-    };
-    nlprule::Tokenizer::from_reader(Cursor::new(bytes))
-        .with_context(|| format!("load tokenizer model {}", path.display()))
+    tokenizer_from_model_path(path)
 }
 
 /// Model path: explicit arg > $CEFR_MODEL > ./models/ (or ./data/) defaults.

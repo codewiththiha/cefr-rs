@@ -38,12 +38,25 @@ cefr = { git = "https://github.com/codewiththiha/cefr-rs.git" }
 |---|---|---|---|
 | `parquet` | yes | arrow, parquet | `dataset::{read_parquet, CefrRow, Columns}` |
 | `sqlite` | yes | rusqlite (bundled) | `db::{build_db, CefrDb}` — rebuild + batch lookups |
-| `nlp` | no | nlprule | the `analyze` pipeline (tokenizer model from a file) |
+| `nlp` | no | nlprule | `pos::Tagger` — sentence-context POS for one word, and the `analyze` pipeline (model from a file) |
 | `embed-model` | no | nlprule-build | `analyze` with the model compiled into the binary |
 
 `CefrDb::lookup(word, pos)` and `CefrDb::lookup_batch(&[(word, pos)])` follow
 the upstream notebook's semantics: the exact (word, POS) average, falling back
 to the word's other senses — or, without a `pos_tag` column, the word average.
+
+Sentence-context POS (`nlp` feature): the runtime tagger decides the role a
+word plays where it appears, then the db answers for that sense.
+
+```rust
+use cefr::db::CefrDb;
+use cefr::pos::Tagger;
+
+let tagger = Tagger::from_model_path("models/en_tokenizer.bin.zst")?;
+let word = tagger.pos_in_context("record", "They record a song.")?; // VB*
+let level = db.exact_level("record", &word.pos)?;                   // that sense only
+let senses = db.pos_senses("record")?;                              // every POS + level
+```
 
 
 ## Parquet files

@@ -61,3 +61,7 @@ jobs:
         run: cargo test --locked
       - name: Tests, library features only
         run: cargo test --locked --no-default-features
+      # The context-POS module and its real-model, real-dataset test only
+      # exist under `nlp`; this job is their gate.
+      - name: Tests, context POS
+        run: cargo test --locked --features nlp
