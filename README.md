@@ -46,7 +46,10 @@ the upstream notebook's semantics: the exact (word, POS) average, falling back
 to the word's other senses — or, without a `pos_tag` column, the word average.
 
 Sentence-context POS (`nlp` feature): the runtime tagger decides the role a
-word plays where it appears, then the db answers for that sense.
+word plays where it appears, then the db answers for that sense. A word the
+tokenizer splits answers through its head — `don't` as the verb `do`,
+`well-known` as `known` — and `pos::kind_of(tag)` names the class (noun,
+verb, adjective, …) so no consumer re-derives it.
 
 ```rust
 use cefr::db::CefrDb;
@@ -56,6 +59,7 @@ let tagger = Tagger::from_model_path("models/en_tokenizer.bin.zst")?;
 let word = tagger.pos_in_context("record", "They record a song.")?; // VB*
 let level = db.exact_level("record", &word.pos)?;                   // that sense only
 let senses = db.pos_senses("record")?;                              // every POS + level
+let class = cefr::pos::kind_of(&word.pos);                          // "verb"
 ```
 
 
