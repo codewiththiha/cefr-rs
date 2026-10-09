@@ -51,6 +51,9 @@ reads the same bands and word classes as the CLI.
 `CefrDb::lookup(word, pos)` and `CefrDb::lookup_batch(&[(word, pos)])` follow
 the upstream notebook's semantics: the exact (word, POS) average, falling back
 to the word's other senses — or, without a `pos_tag` column, the word average.
+`CefrDb::lookup_words(&[word])` is the same answer with no POS asked: one
+average per word, and a word the table lacks is absent from the map rather
+than present as a guess.
 
 Sentence-context POS (`nlp` feature): the runtime tagger decides the role a
 word plays where it appears, then the db answers for that sense. A word the

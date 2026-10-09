@@ -10,11 +10,8 @@ use anyhow::{Context, Result, bail};
 
 use cefr::db::CefrDb;
 use cefr::level::level_to_cefr;
-use cefr::pos::{ABBREVIATION_MAPPING, normalize_pos, tokenizer_from_model_path};
-
-fn load_tokenizer(path: &Path) -> Result<nlprule::Tokenizer> {
-    tokenizer_from_model_path(path)
-}
+use cefr::pos::tokenizer_from_model_path;
+use cefr::tags::{ABBREVIATION_MAPPING, normalize_pos};
 
 /// Model path: explicit arg > $CEFR_MODEL > ./models/ (or ./data/) defaults.
 /// Returns None when no model file is found (embedded build may still apply).
@@ -61,7 +58,7 @@ pub fn analyze(db_path: &Path, text_path: &str, model: Option<&String>) -> Resul
     // --- NLP phase (like `spacy.load("en_core_web_sm")` + lemminflect) ------
     let t0 = Instant::now();
     let tokenizer = match resolve_model_path(model) {
-        Some(path) => load_tokenizer(&path)?,
+        Some(path) => tokenizer_from_model_path(&path)?,
         None => match embedded_model() {
             Some(bytes) => nlprule::Tokenizer::from_reader(Cursor::new(bytes))
                 .context("load embedded tokenizer model")?,

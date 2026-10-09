@@ -8,8 +8,14 @@
 //! Column handling is name-based: any export from tools/csv_to_parquet.py works
 //! as long as `word` and `level` exist; the sqlite schema follows the input.
 //! The CLI in `main.rs` is a thin wrapper over this crate.
+//!
+//! [`level`] and [`tags`] carry no feature gate and no dependency: with
+//! `default-features = false` this crate is two pure modules, so a consumer
+//! that cannot carry parquet, sqlite or a tagger still reads the same bands
+//! and word classes.
 
 pub mod level;
+pub mod tags;
 
 #[cfg(feature = "parquet")]
 pub mod dataset;
