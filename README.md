@@ -12,7 +12,8 @@ not wanted.
 
 ```
 src/lib.rs               library root: the reusable half, feature-gated
-src/level.rs             level bands: 1.0-6.0 floats <-> A1-C2 labels
+src/level.rs             level bands: 1.0-6.0 floats <-> A1-C2 labels (no feature, no dep)
+src/tags.rs              Penn tag vocabulary + token->head rules (no feature, no dep)
 src/dataset.rs           parquet reader (feature `parquet`)
 src/db.rs                sqlite rebuild + CefrDb lookups (feature `sqlite`)
 src/main.rs              CLI: builddb, lookup, batch, memory, analyze, bench
@@ -36,10 +37,16 @@ cefr = { git = "https://github.com/codewiththiha/cefr-rs.git" }
 
 | feature | default | pulls in | gives you |
 |---|---|---|---|
+| *(none)* | — | nothing | `level::{level_band, level_to_cefr}` and `tags::{kind_of, normalize_pos, ABBREVIATION_MAPPING, contraction_stem, hyphen_head, ContextPos}` |
 | `parquet` | yes | arrow, parquet | `dataset::{read_parquet, CefrRow, Columns}` |
 | `sqlite` | yes | rusqlite (bundled) | `db::{build_db, CefrDb}` — rebuild + batch lookups |
-| `nlp` | no | nlprule | `pos::Tagger` — sentence-context POS for one word, and the `analyze` pipeline (model from a file) |
+| `nlp` | no | nlprule, zstd, flate2 | `pos::Tagger` — sentence-context POS for one word, and the `analyze` pipeline (model from a file) |
 | `embed-model` | no | nlprule-build | `analyze` with the model compiled into the binary |
+
+Every dependency belongs to the feature that uses it, so
+`default-features = false` compiles this crate with **zero** dependencies — a
+wasm bundle or an embedder that cannot carry parquet, sqlite or a tagger still
+reads the same bands and word classes as the CLI.
 
 `CefrDb::lookup(word, pos)` and `CefrDb::lookup_batch(&[(word, pos)])` follow
 the upstream notebook's semantics: the exact (word, POS) average, falling back
@@ -48,8 +55,10 @@ to the word's other senses — or, without a `pos_tag` column, the word average.
 Sentence-context POS (`nlp` feature): the runtime tagger decides the role a
 word plays where it appears, then the db answers for that sense. A word the
 tokenizer splits answers through its head — `don't` as the verb `do`,
-`well-known` as `known` — and `pos::kind_of(tag)` names the class (noun,
-verb, adjective, …) so no consumer re-derives it.
+`well-known` as `known` — and `tags::kind_of(tag)` names the class (noun,
+verb, adjective, …) so no consumer re-derives it. The tag vocabulary and the
+token→head rules live in `tags`, feature-free, because the tagger and a
+consumer that cannot carry one must agree on what a tag means.
 
 ```rust
 use cefr::db::CefrDb;
@@ -59,7 +68,7 @@ let tagger = Tagger::from_model_path("models/en_tokenizer.bin.zst")?;
 let word = tagger.pos_in_context("record", "They record a song.")?; // VB*
 let level = db.exact_level("record", &word.pos)?;                   // that sense only
 let senses = db.pos_senses("record")?;                              // every POS + level
-let class = cefr::pos::kind_of(&word.pos);                          // "verb"
+let class = cefr::tags::kind_of(&word.pos);                         // "verb"
 ```
 
 

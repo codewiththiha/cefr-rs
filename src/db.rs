@@ -234,6 +234,33 @@ impl CefrDb {
         Ok(first.map(|(pos, level)| Sense { pos, level }))
     }
 
+    /// One round trip for many words, each answered by the average over all
+    /// its senses. A word the table lacks is simply absent from the map.
+    pub fn lookup_words(&self, words: &[String]) -> Result<HashMap<String, f64>> {
+        let mut out = HashMap::with_capacity(words.len());
+        for chunk in words.chunks(500) {
+            // 1 bind param per word; keep far below SQLITE_MAX_VARIABLE_NUMBER
+            let placeholders = vec!["(?)"; chunk.len()].join(", ");
+            let sql = format!(
+                "WITH wanted(word) AS (VALUES {placeholders})
+                 SELECT wanted.word, AVG(c.level) AS avg_level
+                 FROM wanted
+                 JOIN cefr c ON c.word = wanted.word
+                 GROUP BY wanted.word"
+            );
+            let mut stmt = self.conn.prepare(&sql)?;
+            let rows = stmt
+                .query_map(params_from_iter(chunk.iter().map(String::as_str)), |row| {
+                    Ok((row.get::<_, String>(0)?, row.get::<_, f64>(1)?))
+                })?;
+            for r in rows {
+                let (word, level) = r?;
+                out.insert(word, level);
+            }
+        }
+        Ok(out)
+    }
+
     /// One round trip for many (word, pos) pairs, via a VALUES CTE.
     pub fn lookup_batch(
         &self,
@@ -340,6 +367,23 @@ mod tests {
         let got = db.lookup_batch(&pairs).unwrap();
         assert!((got[&pairs[0]] - 4.0).abs() < 1e-9);
         assert!((got[&pairs[1]] - 5.6).abs() < 1e-9);
+    }
+
+    #[test]
+    fn the_word_batch_answers_by_average_and_omits_the_absent() {
+        let db = seeded();
+        let got = db
+            .lookup_words(&[
+                "run".to_string(),
+                "dog".to_string(),
+                "zzz_no_such_word".to_string(),
+            ])
+            .unwrap();
+        // `run` is NN 2.0 and VB 4.0: the word's own average, no POS asked.
+        assert!((got["run"] - 3.0).abs() < 1e-9);
+        assert!((got["dog"] - 1.1).abs() < 1e-9);
+        assert!(!got.contains_key("zzz_no_such_word"));
+        assert!(db.lookup_words(&[]).unwrap().is_empty());
     }
 
     #[test]
